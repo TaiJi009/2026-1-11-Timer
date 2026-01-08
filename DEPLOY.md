@@ -86,3 +86,49 @@ OUTPUT_DIR = dist
 3. 无需配置 `PROJ_DIR`、`BUILD_COMMAND` 等
 
 这种方式更简单，推荐使用！
+
+## 常见问题：部署后页面空白
+
+### 问题现象
+部署成功，但访问域名后页面显示空白，浏览器控制台可能有 404 错误。
+
+### 问题原因
+文件部署到了子路径（如 `/victorian-timer/`），但 Vite 构建时使用了绝对路径（默认 `/`），导致资源文件路径不匹配。
+
+### 解决方案
+
+**方法一：配置 Vite base 路径（推荐）**
+
+1. 在 `vite.config.js` 中设置 `base` 配置：
+```javascript
+export default defineConfig({
+  base: '/victorian-timer/', // 与 CloudBase 的 APP_PATH 保持一致
+  // ... 其他配置
+})
+```
+
+2. 重新构建和部署：
+```bash
+npm run build
+# 然后重新部署
+```
+
+**方法二：修改部署路径为根路径**
+
+在 CloudBase 部署配置中，将 `APP_PATH` 设置为 `/`（根路径），而不是 `/victorian-timer/`。
+
+### 验证
+
+部署后，检查浏览器开发者工具：
+1. 打开 Network 标签
+2. 刷新页面
+3. 确认所有资源文件（JS、CSS）都能正常加载（状态码 200）
+4. 如果看到 404 错误，说明路径配置不正确
+
+### 访问地址
+
+- 如果部署到 `/victorian-timer/`，访问地址应该是：
+  `https://你的域名/victorian-timer/`
+  
+- 如果部署到根路径 `/`，访问地址是：
+  `https://你的域名/`
