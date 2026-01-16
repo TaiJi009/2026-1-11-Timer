@@ -1,6 +1,6 @@
 # 维多利亚风格实时时间器
 
-一个优雅的维多利亚风格实时时钟网页应用，使用Vue 3构建，专为腾讯云服务器部署设计。
+一个优雅的维多利亚风格实时时钟网页应用，使用Vue 3构建，支持部署到 GitHub Pages、腾讯云等多种平台。
 
 ## 功能特点
 
@@ -43,6 +43,64 @@ npm run build
 ```
 
 构建产物将输出到 `dist` 目录。
+
+## 部署到 GitHub Pages
+
+### 自动部署（推荐）
+
+本项目已配置 GitHub Actions 自动部署，只需按照以下步骤操作：
+
+1. **将代码推送到 GitHub 仓库**
+
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/你的用户名/你的仓库名.git
+   git push -u origin main
+   ```
+
+2. **启用 GitHub Pages**
+   - 进入仓库的 Settings（设置）页面
+   - 在左侧菜单中找到 Pages（页面）选项
+   - 在 Source（源）部分，选择 "GitHub Actions"
+   - 保存设置
+
+3. **自动部署**
+   - 每次推送代码到 `main` 分支时，GitHub Actions 会自动构建并部署
+   - 部署完成后，访问地址为：`https://你的用户名.github.io/你的仓库名/`
+   - 如果仓库名为 `username.github.io`，则访问地址为：`https://你的用户名.github.io/`
+
+### 手动部署
+
+如果你想手动部署到 GitHub Pages：
+
+1. **修改 base 路径**
+   
+   如果仓库名不是 `username.github.io`，需要修改 `vite.config.js` 中的 `base` 路径：
+   ```javascript
+   base: '/你的仓库名/',
+   ```
+
+2. **构建项目**
+   ```bash
+   npm run build
+   ```
+
+3. **部署 dist 目录**
+   - 使用 `gh-pages` 工具：
+     ```bash
+     npm install -g gh-pages
+     gh-pages -d dist
+     ```
+   - 或者手动创建 `gh-pages` 分支并上传 `dist` 目录内容
+
+### 注意事项
+
+- 如果仓库名是 `username.github.io`，网站会部署在根路径，无需修改 base
+- 如果仓库名是其他名称，网站会部署在子路径下（如 `/仓库名/`），需要确保 `vite.config.js` 中的 `base` 配置正确
+- GitHub Actions 会自动根据仓库名设置正确的 base 路径
 
 ## 部署到腾讯云
 
@@ -112,6 +170,9 @@ Timer/
 ├── vite.config.js       # Vite配置
 ├── Dockerfile           # Docker配置
 ├── nginx.conf           # Nginx配置
+├── .github/
+│   └── workflows/
+│       └── deploy.yml   # GitHub Actions 部署配置
 └── README.md           # 项目说明
 ```
 
