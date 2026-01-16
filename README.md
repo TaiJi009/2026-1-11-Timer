@@ -61,11 +61,19 @@ npm run build
    git push -u origin main
    ```
 
-2. **启用 GitHub Pages**
-   - 进入仓库的 Settings（设置）页面
-   - 在左侧菜单中找到 Pages（页面）选项
-   - 在 Source（源）部分，选择 "GitHub Actions"
-   - 保存设置
+2. **启用 GitHub Pages**（重要！）
+   
+   这是最关键的一步，如果跳过会导致部署失败：
+   
+   - 进入 GitHub 仓库页面
+   - 点击顶部菜单栏的 **Settings**（设置）
+   - 在左侧菜单栏找到并点击 **Pages**（页面）
+   - 在 **Source**（源/来源）部分：
+     - 选择 **"GitHub Actions"**（不要选择 Deploy from a branch）
+     - 如果看不到 "GitHub Actions" 选项，确保你的仓库是公开的，或者你有 GitHub Pro/Team/Enterprise 账户
+   - 点击 **Save**（保存）按钮
+   
+   ⚠️ **注意**：如果这一步没有完成，GitHub Actions 工作流会失败并提示 "Get Pages site failed" 错误。
 
 3. **自动部署**
    - 每次推送代码到 `main` 分支时，GitHub Actions 会自动构建并部署
